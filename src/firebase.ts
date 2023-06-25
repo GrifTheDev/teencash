@@ -15,7 +15,7 @@ export function getDB() {
     };
 
     initializeApp(fcfg);
-    console.log("connected")
+    if (config.debug == true) console.log("[DEBUG] Database connection successful.")
   }
 
   return { db: getFirestore() };

@@ -1,14 +1,54 @@
 import type { Actions } from "@sveltejs/kit";
+import { config } from "../../../config";
+import { sha256 } from "js-sha256"
+import { getDB } from "../../firebase";
+import { doc, getDoc } from "firebase/firestore";
 
 export const actions: Actions = {
-    login:async ({ cookies, request }) => {
+  login: async ({ cookies, request }) => {
+    const formData = await request.formData();
 
-        const formData = await request.formData()
+    const email: string = formData.get("email")?.toString() || "";
+    const password: string = formData.get("password")?.toString() || "";
 
-        const username: string = formData.get("username")?.toString() || ""
-        const password: string = formData.get("password")?.toString() || ""
-
-        if (username == "" || password == "") return { code: 400, message: "Please input both a username and a password." }
-        
+    if (email == "" || password == "") {
+      if (config.debug == true) console.log("[DEBUG] Username/password not sent");
+      return {
+        code: 400,
+        message: "Please input both a username and a password.",
+      };
     }
+
+    // E-mail does not contain @something.com
+    if (email.split("@").length < 2) {
+      if (config.debug == true) console.log("[DEBUG] Email does not contain @");
+
+      return { code: 422, message: "Invalid e-mail." };
+    }
+    // The part after @ in the email does not contain a .
+    if (email.split("@")[1].split(".").length < 2) {
+      if (config.debug == true)
+        console.log("[DEBUG] Email does not contain . end");
+
+      return { code: 422, message: "Invalid e-mail." };
+    }
+
+    const sha256Email: string = sha256(email)
+    const sha256Password: string = sha256(password)
+
+    const { db } = getDB()
+    const docRef = doc(db, "users", sha256Email)
+    const document = (await getDoc(docRef)).data()
+
+    if (document == undefined) {
+        if (config.debug == true) console.log("[DEBUG] User not found in firestore database. Document returned undefined.")
+
+        return {
+            code: 401,
+            message: "Invalid username/password."
+        }
+    }
+
+    console.log("success")
+  },
 };

@@ -23,6 +23,7 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"firebase": "^9.23.0"
+		"firebase": "^9.23.0",
+		"js-sha256": "^0.9.0"
 	}
 }
