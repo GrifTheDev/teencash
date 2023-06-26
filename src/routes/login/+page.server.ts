@@ -1,8 +1,9 @@
-import type { Actions } from "@sveltejs/kit";
+import { redirect, type Actions } from "@sveltejs/kit";
 import { config } from "../../../config";
-import { sha256 } from "js-sha256"
+import { sha256 } from "js-sha256";
 import { getDB } from "../../firebase";
 import { doc, getDoc } from "firebase/firestore";
+import jwt from "jsonwebtoken";
 
 export const actions: Actions = {
   login: async ({ cookies, request }) => {
@@ -12,7 +13,8 @@ export const actions: Actions = {
     const password: string = formData.get("password")?.toString() || "";
 
     if (email == "" || password == "") {
-      if (config.debug == true) console.log("[DEBUG] Username/password not sent");
+      if (config.debug == true)
+        console.log("[DEBUG] Username/password not sent");
       return {
         code: 400,
         message: "Please input both a username and a password.",
@@ -33,22 +35,54 @@ export const actions: Actions = {
       return { code: 422, message: "Invalid e-mail." };
     }
 
-    const sha256Email: string = sha256(email)
-    const sha256Password: string = sha256(password)
+    const sha256Email: string = sha256(email);
+    const sha256Password: string = sha256(password);
 
-    const { db } = getDB()
-    const docRef = doc(db, "users", sha256Email)
-    const document = (await getDoc(docRef)).data()
+    const { db } = getDB();
+    const docRef = doc(db, "users", sha256Email);
+    const document = (await getDoc(docRef)).data();
 
     if (document == undefined) {
-        if (config.debug == true) console.log("[DEBUG] User not found in firestore database. Document returned undefined.")
+      if (config.debug == true)
+        console.log(
+          "[DEBUG] User not found in firestore database. Document returned undefined."
+        );
 
-        return {
-            code: 401,
-            message: "Invalid username/password."
-        }
+      return {
+        code: 401,
+        message: "Invalid username/password.",
+      };
     }
 
-    console.log("success")
+    const dbPassword = document.password;
+    const name = document.name;
+    const userId = document.userid;
+
+    if (sha256Password == dbPassword) {
+      const token = jwt.sign(
+        {
+          userid: userId,
+          name: name,
+        },
+        config.jwt_secret,
+        {
+          expiresIn: "7d",
+        }
+      );
+
+      cookies.set("AuthorizationToken", `Bearer ${token}`, {
+        httpOnly: true,
+        secure: true,
+        path: "/",
+        sameSite: "strict",
+        maxAge: 60 * 60 * 24 * 7,
+      })
+
+      throw redirect(303, "/app")
+    } else {
+      return { code: 401, message: "Invalid username/password." }; 
+    }
+
+    console.log("success");
   },
 };
