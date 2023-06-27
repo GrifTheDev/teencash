@@ -1,9 +1,17 @@
+import type { PageServerLoad } from "./$types";
 import { redirect, type Actions } from "@sveltejs/kit";
 import { config } from "../../../config";
 import { sha256 } from "js-sha256";
 import { getDB } from "../../firebase";
 import { doc, getDoc } from "firebase/firestore";
 import jwt from "jsonwebtoken";
+
+export const load = (async ({ locals }) => {
+  if (locals.sessionUser != undefined) {
+    throw redirect(303, "/app");
+  }
+  return locals
+}) satisfies PageServerLoad;
 
 export const actions: Actions = {
   login: async ({ cookies, request }) => {
@@ -56,12 +64,12 @@ export const actions: Actions = {
 
     const dbPassword = document.password;
     const name = document.name;
-    const userId = document.userid;
+    const userid = document.userid;
 
     if (sha256Password == dbPassword) {
       const token = jwt.sign(
         {
-          userid: userId,
+          userid: userid,
           name: name,
         },
         config.jwt_secret,
@@ -83,6 +91,5 @@ export const actions: Actions = {
       return { code: 401, message: "Invalid username/password." }; 
     }
 
-    console.log("success");
   },
 };

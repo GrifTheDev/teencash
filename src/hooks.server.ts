@@ -17,7 +17,9 @@ export const handle = (async ({event, resolve}) => {
             const sessionUser = {name: userInfo.name, userId: userInfo.userid}
             event.locals.sessionUser = sessionUser
         } catch (error) {
-            console.log(error)
+            console.log("JSON Web Token verification failed with reason: ", error, ". Deleting cookie and requesting login.")
+            event.cookies.delete("AuthorizationToken")
+
         }
     }
 
