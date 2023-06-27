@@ -13,7 +13,7 @@ export const load = (async ({ locals }) => {
   return locals
 }) satisfies PageServerLoad;
 
-export const actions: Actions = {
+export const actions = {
   login: async ({ cookies, request }) => {
     const formData = await request.formData();
 
@@ -92,4 +92,4 @@ export const actions: Actions = {
     }
 
   },
-};
+} satisfies Actions;

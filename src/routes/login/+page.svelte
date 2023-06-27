@@ -14,7 +14,7 @@
       </div>
     </div>
   {/if}
-  <div class="flex justify-center">
+  <div class="flex justify-center text-center">
     <form action="?/login" method="post" novalidate>
       E-mail: <br />
       <input name="email" type="email" class="border-solid border-2 border-black rounded" />
