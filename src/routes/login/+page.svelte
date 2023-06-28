@@ -2,6 +2,7 @@
   import type { ActionData } from "./$types";
   export let form: ActionData;
 </script>
+
 <div class="grid grid-cols-1">
   <h1 class="text-center text-5xl m-3">Login</h1>
 
@@ -17,7 +18,11 @@
   <div class="flex justify-center text-center">
     <form action="?/login" method="post" novalidate>
       E-mail: <br />
-      <input name="email" type="email" class="border-solid border-2 border-black rounded" />
+      <input
+        name="email"
+        type="email"
+        class="border-solid border-2 border-black rounded"
+      />
       <br />
       Password: <br />
       <input

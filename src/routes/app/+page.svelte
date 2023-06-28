@@ -4,4 +4,4 @@
   export let data: PageData;
 </script>
 
-<h1>Hello {data.sessionUser.name}!</h1>
+<h1>Hello {data.sessionUser.name} with a balance of !</h1>

@@ -106,6 +106,13 @@ export const actions = {
       sameSite: "strict",
       maxAge: 60 * 60 * 24 * 7,
     });
+    
+    cookies.set("RequiresSetup", `true`, {
+      httpOnly: true,
+      secure: true,
+      path: "/",
+      sameSite: "strict",
+    });
 
     throw redirect(303, "/app");
   },
