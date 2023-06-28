@@ -6,7 +6,6 @@
   let emptyArray = Array(numberOfWallets)
 
   function validateNumInput() {
-    console.log(numberOfWallets)
     if (numberOfWallets < 1 || numberOfWallets == null) {
       numberOfWallets = 1;
     }
