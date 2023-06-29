@@ -14,7 +14,7 @@
   }
 
   export { numberOfWallets as numberOfWallets };
-  export {emptyArray as emptyArray}
+  export { emptyArray as emptyArray }
 </script>
 
 <div class="flex justify-center items-center h-screen">
@@ -231,15 +231,17 @@
             <p class="text-base">Wallet #{i + 1}</p>
             <div class="flex justify-center">
               <input
-                name={"walletName_" + { i }}
+                name={"walletName_" + i}
                 type="text"
                 class="border-solid border-2 border-black rounded"
               />
               <input
-                name={"walletAmount_" + { i }}
-                type="number"
-                class="border-solid border-2 border-black rounded w-14"
+                name={"walletAmount_" + i}
+                type="text" 
+                inputmode="numeric"
+                class="border-solid border-2 border-black rounded w-14 appearance-none"
               />
+
             </div>
 
               
