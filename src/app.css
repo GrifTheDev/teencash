@@ -3,25 +3,26 @@
 @tailwind utilities;
 
 @font-face {
-  font-family: Poppins-Bold;
-  src: url("/Poppins-Bold.ttf") 
+  font-family: Mulish-Bold;
+  src: url("/Mulish-Bold.ttf") 
   format("truetype");
 }
 
 @font-face {
-  font-family: Poppins-Light;
-  src: url("/Poppins-Light.ttf") 
+  font-family: Mulish-SemiBold;
+  src: url("/Mulish-SemiBold.ttf") 
   format("truetype");
 }
 
 @font-face {
-  font-family: Poppins-SemiBold;
-  src: url("/Poppins-SemiBold.ttf") 
+  font-family: Mulish-Regular;
+  src: url("/Mulish-Regular.ttf") 
   format("truetype");
 }
 
 @font-face {
-  font-family: Poppins-Regular;
-  src: url("/Poppins-Regular.ttf") 
+  font-family: Mulish-Light;
+  src: url("/Mulish-Light.ttf") 
   format("truetype");
 }
+
