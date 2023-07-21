@@ -10,6 +10,16 @@ export default {
         "mulish-light": ["Mulish-Light", "sans-serif"],
         sans: ["Mulish-Regular", "sans-serif"],
       },
+      screens: {
+        'xxs': '320px',
+        'xs': '480px',
+        'sm': '640px',
+        'md': '768px',
+        'lg': '1024px',
+        'xl': '1280px',
+        '2xl': '1536px',
+        '3xl': '1920px',
+      },
       colors: {
         href: "#008CDA",
         inputBorder: "#979797",

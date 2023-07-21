@@ -26,6 +26,7 @@ export const actions = {
       return {
         code: 400,
         message: "Please input both a username and a password.",
+        refFields: "ep",
       };
     }
 
@@ -33,14 +34,14 @@ export const actions = {
     if (email.split("@").length < 2) {
       if (config.debug == true) console.log("[DEBUG] Email does not contain @");
 
-      return { code: 422, message: "Invalid e-mail." };
+      return { code: 422, message: "Invalid e-mail.", refFields: "e" };
     }
     // The part after @ in the email does not contain a .
     if (email.split("@")[1].split(".").length < 2) {
       if (config.debug == true)
         console.log("[DEBUG] Email does not contain . end");
 
-      return { code: 422, message: "Invalid e-mail." };
+      return { code: 422, message: "Invalid e-mail.", refFields: "e" };
     }
 
     const sha256Email: string = sha256(email);
@@ -59,6 +60,7 @@ export const actions = {
       return {
         code: 401,
         message: "Invalid username/password.",
+        refFields: "ep"
       };
     }
 
@@ -88,7 +90,7 @@ export const actions = {
 
       throw redirect(303, "/app")
     } else {
-      return { code: 401, message: "Invalid username/password." }; 
+      return { code: 401, message: "Invalid username/password.", refFields: "ep" }; 
     }
 
   },
